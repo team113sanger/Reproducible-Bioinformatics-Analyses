@@ -4,7 +4,7 @@ FROM rocker/tidyverse:4.2.0
 RUN install2.r --error \
     rmarkdown \
     shiny \
-    knitr \
-    glue \
-    here
+    knitr 
+
+## Add in the glue and here packages
 
