@@ -29,8 +29,9 @@ docker run -it example_renv R
 ```
 This should open an R terminal where in theory you could 
 
-
-docker run --rm -p 8789:8789
+```
+docker run --rm -p 8789:8789 example_renv sudo sudo rstudio-server start
+```
 
 
 
