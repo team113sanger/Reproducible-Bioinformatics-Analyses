@@ -4,7 +4,7 @@ FROM rocker/tidyverse:4.2.0
 RUN install2.r --error \
     rmarkdown \
     shiny \
-    knitr
+    knitr \
+    glue \
+    here
 
-# Install packages from Bioconductor
-RUN R -e "BiocManager::install(c('DESeq2', 'edgeR'))"

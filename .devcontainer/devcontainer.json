@@ -15,7 +15,8 @@
 		"ghcr.io/rocker-org/devcontainer-features/r-rig:1": {
 			"version": "none",
 			"installJupyterlab": true
-		}
+		},
+        "ghcr.io/devcontainers/features/docker-in-docker:2": {}
 	},
 
 	"customizations": {

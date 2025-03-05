@@ -73,19 +73,6 @@ format:
 * **Career**: Growing importance in academic evaluations
 
 ---
-
-## Real-World Examples
-
-**Successes**:
-
-* AlphaFold's public code & containers
-* Bioconductor packages
-* nf-core pipelines
-:::
-::::
-
----
-
 # 2. Project Organization
 
 ## Project Structure Principles
@@ -236,56 +223,6 @@ data_path <- "/home/user/projects/analysis/data/raw/counts.csv"
 1. **Code-level**: Comments, docstrings
 2. **Project-level**: READMEs, wikis
 3. **Analysis-level**: Notebooks, reports
-4. **Method-level**: Protocols, workflows
-
----
-
-## Markdown Basics
-
-```markdown
-# Heading 1
-## Heading 2
-
-*Italic* or _italic_
-**Bold** or __bold__
-
-- Bullet point
-- Another bullet
-  - Nested bullet
-
-1. Numbered list
-2. Second item
-
-[Link text](URL)
-
-![Image alt text](image_url)
-
-`inline code`
-
-```code block```
-```
-
----
-
-## Computational Notebooks
-
-:::: {.columns}
-::: {.column width="45%"}
-**Jupyter Notebooks**:
-- Python, R, Julia, etc.
-- Interactive
-- Popular in data science
-- `.ipynb` files
-:::
-
-::: {.column width="45%"}
-**R Markdown / Quarto**:
-- Integration with R
-- Publication-quality output
-- Multiple output formats (HTML, PDF, presentations)
-- `.Rmd` or `.qmd` files
-:::
-::::
 
 ---
 
@@ -298,41 +235,6 @@ data_path <- "/home/user/projects/analysis/data/raw/counts.csv"
 * **Environment**: Software versions, configurations
 
 ---
-
----
-
-## Using Quarto for Documentation
-
-```
----
-title: "Differential Expression Analysis"
-author: "Your Name"
-date: "2023-03-15"
-format: html
----
-
-## Load Libraries
-
-```{r}
-library(DESeq2)
-library(tidyverse)
-```
-
-## Read Data
-
-```{r}
-counts <- read.csv("data/counts.csv")
-metadata <- read.csv("data/metadata.csv")
-```
-
-## Analysis
-
-```{r}
-dds <- DESeqDataSetFromMatrix(countData = counts,
-                              colData = metadata,
-                              design = ~ condition)
-```
-```
 
 ---
 
@@ -490,28 +392,6 @@ COPY src/ /app/src/
 
 # Default command
 CMD ["python", "src/main.py"]
-```
-
----
-
-## Basic Singularity Recipe
-
-```singularity
-Bootstrap: docker
-From: python:3.9-slim
-
-%post
-    apt-get update && apt-get install -y \
-        build-essential \
-        libz-dev
-    
-    pip install pandas numpy scipy biopython
-
-%files
-    src/ /app/src/
-    
-%runscript
-    python /app/src/main.py
 ```
 
 ---
