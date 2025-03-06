@@ -5,30 +5,42 @@ format:
   revealjs:
     theme: default
     slide-number: true
-    logo: "your-logo.png"
-    footer: "Making Bioinformatics Analyses Reproducible"
     transition: none
 ---
 
-# Making Bioinformatics Analyses Reproducible
-
 ## Workshop Overview
 
-1. Introduction to Reproducibility
+1. Why Reproducibility Matters
 2. Project Organization
-3. Documentation Methods
+3. Documentation
 4. Environment Management
 5. Hands-on Project Cleanup
 
 ---
 
-# 1. Introduction to Reproducibility
+---
+If you only take away three thing's from today:
+- Use `here()` and relative paths in your R scripts (No more ~/Downloads/da1/etc)
+- Use `renv()` to record your projects dependencies
+- There's early you tidy up your projects (and put them in git) the better
 
-## Why Reproducibility Matters
 
-> "An article about computational science in a scientific publication is **not** the scholarship itself, it is merely **advertising** of the scholarship. The actual scholarship is the complete software development environment and the complete set of instructions which generated the figures."
+---
+
+
+# 1. Why Reproducibility Matters
+
+> "An article about computational science **with a means for reporducing it out** in a scientific publication is **not** the scholarship itself, it is merely **advertising** of the scholarship..."
 >
-> -- Jonathan Buckheit and David Donoho, 1995
+> -- Jonathan Buckheit and David Donoho, 1995 / Me, 2025
+
+---
+## Benefits of reproducible code
+
+* **Scientific integrity**: Results can be verified
+* **Collaboration**: Others can build on your work
+* **Efficiency**: Less time spent recreating past work
+* **Impact**: More citations for usable code
 
 ---
 
@@ -49,7 +61,9 @@ format:
 * **eLife**: Docker containers encouraged, Code Execution Editor
 * **Genome Biology**: Code must be under version control, containers preferred
 
-
+---
+## The current state of things
+CodeOcean: [Code Ocean](https://codeocean.com/capsule/9835100/tree/v1)
 
 ---
 
@@ -62,26 +76,15 @@ format:
 * Collaborator wants to run your analysis
 * Your future self needs to revisit analysis
 
----
 
-## Benefits of Reproducible Research
-
-* **Scientific integrity**: Results can be verified
-* **Collaboration**: Others can build on your work
-* **Efficiency**: Less time spent recreating past work
-* **Impact**: More citations for usable code
-* **Career**: Growing importance in academic evaluations
-
----
 # 2. Project Organization
 
 ## Project Structure Principles
 
-1. Intuitive organization
-2. Separation of concerns
+1. Intuitive for a stranger
+2. "Separation of concerns"
 3. Consistent naming
 4. Self-documentation
-5. Reproducibility path
 
 ---
 
@@ -101,10 +104,16 @@ project/
 ├── results/
 │   ├── figures/
 │   └── tables/
-├── docs/
 └── environment/
 ```
 
+---
+Sequencing 
+```
+01_do_x.sh
+02_do_y.sh
+03_do_z.sh
+```
 ---
 
 ## What to Include & Exclude
@@ -114,7 +123,7 @@ project/
 * Code
 * Small metadata files
 * Configuration
-* Documentation
+* Documentation (At the very least a README)
 * Environment files
 
 **Exclude** (use `.gitignore`):
@@ -176,10 +185,6 @@ Results will be generated in the `results/` directory.
 
 * **Directories**: logical grouping, consistent pattern
 
-* **Variables/Functions**: clear, consistent naming scheme
-  * R: `snake_case` or `camelCase`
-  * Python: `snake_case` for functions, `PascalCase` for classes
-
 ---
 
 ## Separating Code, Data, and Results
@@ -215,17 +220,6 @@ data_path <- "/home/user/projects/analysis/data/raw/counts.csv"
 **Task**: Create a proper structure for these files, explaining your decisions.
 
 ---
-
-# 3. Documentation Methods
-
-## Types of Documentation
-
-1. **Code-level**: Comments, docstrings
-2. **Project-level**: READMEs, wikis
-3. **Analysis-level**: Notebooks, reports
-
----
-
 ## What Should You Document?
 
 * **Data**: Sources, cleaning steps, versions
@@ -233,26 +227,6 @@ data_path <- "/home/user/projects/analysis/data/raw/counts.csv"
 * **Results**: Interpretation, validation, limitations
 * **Workflow**: Order of operations, dependencies
 * **Environment**: Software versions, configurations
-
----
-
----
-
-## Exercise: Improving Documentation
-
-**Before**:
-```r
-# Run DE
-de <- function(x, y) {
-  d <- read.csv("counts.csv")
-  m <- read.csv("meta.csv")
-  a <- DESeqDataSetFromMatrix(d, m, ~c)
-  b <- DESeq(a)
-  return(results(b))
-}
-```
-
-**Task**: Improve this code with proper documentation and organization.
 
 ---
 
@@ -277,7 +251,7 @@ de <- function(x, y) {
 
 ---
 
-## Capturing Environment in R
+## Capturing Environments in R
 
 **Using renv**:
 
@@ -371,7 +345,7 @@ conda env export > environment.yml
 
 ---
 
-## Basic Dockerfile
+## Anatomy of a Dockerfile
 
 ```dockerfile
 FROM python:3.9-slim
@@ -410,13 +384,13 @@ Create:
 
 ---
 
-# 5. Hands-on Project Cleanup
+# 5. Hands-on Project Reproducibility
 
 ## Project Cleanup Checklist
 
 1. **Organization**: Directory structure, file naming
 2. **Documentation**: README, in-code comments, notebooks
-3. **Environment**: Dependency specification
+3. **Environment**: Record the Dependency specification
 4. **Code quality**: Consistent style, error handling
 5. **Data management**: Raw vs. processed, paths
 
@@ -539,19 +513,3 @@ message("Analysis complete. Results saved to: ", results_dir)
 * Get help with implementation
 
 ---
-
-## Resources
-
-* Coding Club: [Reproducible Code](https://ourcodingclub.github.io/tutorials/reproducible-code/)
-* The Turing Way: [Guide to Reproducible Research](https://the-turing-way.netlify.app/reproducible-research/reproducible-research.html)
-* Software Carpentry: [Good Enough Practices in Scientific Computing](https://journals.plos.org/ploscompbiol/article?id=10.1371/journal.pcbi.1005510)
-* Bioconductor: [Package Development Guide](https://bioconductor.org/developers/package-guidelines/)
-* nf-core: [Pipeline Standards](https://nf-co.re/docs/contributing/guidelines)
-
----
-
-## Thank You!
-
-Questions?
-
-Contact: your.email@example.com

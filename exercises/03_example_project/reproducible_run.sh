@@ -1,0 +1,2 @@
+Rscript "/home/ubuntu/projects/Reproducible-Bioinformatics-Analyses/exercises/03_example_project/analysis.R"
+Rscript "/home/ubuntu/projects/Reproducible-Bioinformatics-Analyses/exercises/03_example_project/plot.R"
