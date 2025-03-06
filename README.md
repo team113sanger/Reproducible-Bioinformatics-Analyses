@@ -19,10 +19,11 @@ format:
 ---
 
 ---
-If you only take away three thing's from today:
-- Use `here()` and relative paths in your R scripts (No more ~/Downloads/da1/etc)
+## TLDR
+If you only take away 3 thing's from today:
+- Use `here()` and relative paths in your R scripts (No more ~/Downloads/jb63/etc)
 - Use `renv()` to record your projects dependencies
-- There's early you tidy up your projects (and put them in git) the better
+- There's early you tidy up your projects (and put them in git) the better.
 
 
 ---
