@@ -1,0 +1,21 @@
+{
+  "command": "pycroquet single-guide -g /lustre/scratch124/casm/team113/projects/5621_5821_sgrna_crisprko_uveal_melanoma/METADATA/library_CRISPRcleanR_KY_Library_v1.1.pycroquet.tsv -q /lustre/scratch124/casm/team113/projects/5621_5821_sgrna_crisprko_uveal_melanoma/DATA/CRAM/study_sample/5821_5821STDY10407979.cram -o /lustre/scratch124/casm/team113/projects/5621_5821_sgrna_crisprko_uveal_melanoma/DATA/pycroquet/5821_5821STDY10407979 --cpus 8 --boundary-mode exact --chunks 50000",
+  "length_excluded_reads": null,
+  "low_count_guides_lt_15": 1908,
+  "low_count_guides_lt_30": 3092,
+  "low_count_guides_user": null,
+  "mapped_to_guide_reads": 49226466,
+  "mean_count_per_guide": 487.18,
+  "merged_from": null,
+  "multimap_reads": 0,
+  "pair_classifications": null,
+  "reversed_reads": false,
+  "sample_name": "921_c909R2",
+  "total_guides": 101090,
+  "total_pairs": 0,
+  "total_reads": 55895282,
+  "unmapped_reads": 6668816,
+  "vendor_failed_reads": 0,
+  "version": "1.5.1",
+  "zero_count_guides": 975
+}

@@ -21,8 +21,8 @@ format:
 ---
 ## TLDR
 If you only take away 3 thing's from today:
-- Use relative paths + tools for handling them in your projects (No more `~/Downloads/jb63/etc`)
-- Use `renv`, pip freeze, and conda export to record your project's dependencies as a file
+- Relative paths your projects (Please never `setwd(~/Downloads/jb63/etc)` again!)
+- renv, pip freeze, and conda export
 - The early you tidy up your projects (**and put them in git**) the better!
 
 ---
@@ -33,7 +33,6 @@ If you only take away 3 thing's from today:
 >
 > -- Jonathan Buckheit and David Donoho, 1995 
 
-
 >"Pics or It Didn't Happen"
 >
 > --  Me, 2025
@@ -41,10 +40,10 @@ If you only take away 3 thing's from today:
 ---
 ## The carrot: Benefits of reproducible code
 
-* **Scientific integrity**: You analysis can be verified
-* **Collaboration**: Others can build on your work more easily
-* **Efficiency**: Less time spent recreating past work
-* **Impact**: (Supposedly) more citations for usable code
+* **Scientific integrity**
+* **Collaboration**
+* **Efficiency**
+* **Impact**
 
 ---
 
@@ -52,41 +51,43 @@ If you only take away 3 thing's from today:
 
 * **2010s**: Code "available upon request"
 * **2015-2020**: Code in supplementary materials or repository
-* **2020+**: Code avaiable as a citeable, persistent repository
+* **2020-2025**: Code avaiable as a citeable, persistent repository
 * **2025+**: Executable code, containers, and code capsules
 
 ---
 
-## Journal Requirements Examples
-* Several places: **Authors must deposit all raw data in an appropriate repository prior to peer review** 
+## Journal Requirements
+* Several places **Authors must deposit all raw data in an appropriate repository prior to peer review**
+and  
 * **Nature**: Code must be "available in a persistent repository"
-* **Science**: Code availability statement, encouraged to use containers
 * **PLOS**: Code must be in a repository with a DOI
-* **eLife**: Docker containers encouraged, Code Execution Editor
-* **Genome Biology**: Code must be under version control
+* **Genome Biology**: Code must be under version control and with citeable repository
 
 ---
 
 ---
 ## Now 
 Techinically all code has to have a "persistent identifier" and be citeable
-Makes them citeable [](!resources/DOI_repo.png) 
+Makes them citeable [](!resources/DOI_repo.png). 
+Zenodo the easiest way as you can snapshot GitHub "releases"
 ---
 
 ## Where things look to be heading
 
-CodeOcean: [Code Ocean](https://codeocean.com/capsule/9835100/tree/v1)
+[Capsules](https://codeocean.com/explore?page=1&filter=all)
+[CodeOcean](https://codeocean.com/capsule/9835100/tree/v1)
 
 ---
 
-# 2. How to get ther more easilty Project Organization
+# 2. How to get there more easilty: project Organization
 
 ## Project Structure Principles
 
-Projects should be:
-1. Have a structure that is intuitive for a stranger
-2. Have "separation of concerns" (data, code, metadata, documentation)
-3. Be self-documentated
+Projects should be have a structure that is intuitive for a stranger
+1. Have "separation of concerns" (data, code, metadata, documentation)
+2. Be self-documentated
+
+[I've compiled a checklist for how to approach this here](https://docs.google.com/document/d/1zi4ECDuNtWIyxddlhv5XLUqyC5kA2517HWgB3K52fak/edit?tab=t.0)
 
 ---
 
@@ -109,34 +110,17 @@ project/
 ├── data/
 │   ├── raw/
 │   └── processed/
-├── src/ or scripts/
+├── src/
 │   ├── preprocessing/
 │   ├── analysis/
 │   └── visualization/
+├── metadata
 ├── results/
 │   ├── figures/
 │   └── tables/
 └── environment/
 ```
 --- 
-## What to Include & Exclude
-
-**Include**:
-
-* Code
-* Small metadata files
-* Configuration
-* Documentation (At the very least a README)
-* Environment files
-
-**Exclude** (use `.gitignore`):
-
-* Raw genomic data
-* Large intermediate files
-* Sensitive information
-* System files
-
----
 
 ## README.md Best Practices
 
@@ -179,17 +163,16 @@ Results will be generated in the `results/` directory.
 
 ---
 
-## Naming Conventions
+## Tips: Naming Conventions
 
-* **Files**: lowercase, no spaces, descriptive
+::: {.callout-tip}
+Give files names that are lowercase, have no spaces, and are descriptive
   * Good: `preprocess_counts.R`, `differential_expression_analysis.R`
   * Bad: `script1.R`, `DE stuff.R`, `final_FINAL_v2_REALLY_FINAL.R`
-
-* **Directories**: logical grouping, consistent pattern
+:::
 
 ---
-## Tips
-
+## Tips: Making your scripts run anywhere
 
 ::: {.callout-tip}
 Use relative paths instead of absolute paths:
@@ -205,6 +188,36 @@ data_path <- "/home/user/projects/analysis/data/raw/counts.csv"
 :::
 ---
 
+
+---
+## Tips: Cleaning up code
+
+::: {.callout-tip}
+Use styler to reformat your code and make it more consistent + Readable
+```r
+install.packages("styler")
+library(styler)
+
+styler::style_dir(".")
+```
+This will rewrite your code
+
+:::
+---
+
+
+---
+## Tips: Cleaning up code
+
+::: {.callout-tip}
+Test run your code 
+```bash
+Rscript analysis.R
+python3 analysis.py
+```
+should complete without throwing an error.
+:::
+---
 # 4. Environment Management
 
 ## The Problem: Dependency Hell
@@ -212,9 +225,8 @@ data_path <- "/home/user/projects/analysis/data/raw/counts.csv"
 :::: {.columns}
 ::: {.column width="45%"}
 **Common issues**:
-- "Works on my machine"
+- "Works on my machine / the Farm"
 - Package version conflicts
-- System dependencies
 - Unspecified requirements
 :::
 
@@ -224,6 +236,7 @@ data_path <- "/home/user/projects/analysis/data/raw/counts.csv"
 :::
 ::::
 
+Solution: Snapshot your environment so that you can share it 
 ---
 
 ## Capturing Environments in R
@@ -236,13 +249,14 @@ renv::init()
 
 # Install packages
 renv::install("tidyverse")
-renv::install("DESeq2")
+renv::install("glue")
 
 # Snapshot dependencies
 renv::snapshot()
 ```
 
-This creates `renv.lock` which records exact package versions you used at the time of creation
+Creates `renv.lock` which records exact package versions you used at the time of creation. 
+Never manually enter them again!
 
 ---
 
@@ -294,7 +308,7 @@ conda env export > environment.yml
 * Include OS, dependencies, code
 * Consistent across computing environments
 * "Write once, run anywhere"
-* Better than conda basically all ways
+* Better than conda in basically all ways
 
 ---
 
@@ -303,14 +317,14 @@ conda env export > environment.yml
 :::: {.columns}
 ::: {.column width="45%"}
 **Docker**:
-- Industry standard
-- Not always allowed on HPC (inc sanger farm)
+- Standard in all computational work
+- Not always allowed on HPC (inc. sanger farm)
 - Root privileges (Dangerous!)
 - Dockerfile format
 :::
 
 ::: {.column width="45%"}
-**Singularity**:
+**Singularity/Apptainer**:
 - HPC-friendly
 - No root privileges required
 - Can convert Docker containers
@@ -320,7 +334,8 @@ conda env export > environment.yml
 
 ---
 ## Why containers rule
-Demo time. You should be able to try these in your codespace
+Demo time! You should be able to try these in your codespace. 
+I've compiled a set of tools we often use in the lab. How easy is it to set them up?
 ```
 docker run quay.io/wtsicgp/valiant:4.0.0 valiant --help
 ```
@@ -332,7 +347,7 @@ docker run -it quay.io/biocontainers/repeatmasker:4.1.7p1--pl5321hdfd78af_1 repe
 ```
 
 
-## Anatomy of a Dockerfile
+## How does it work? Anatomy of a Dockerfile
 
 ```dockerfile
 FROM python:3.9-slim
@@ -381,112 +396,6 @@ Create:
 
 ---
 
-## Common Issues to Address
-
-* Hard-coded paths
-* Missing documentation
-* Unspecified parameters
-* Insufficient error handling
-* Incomplete dependency list
-* Undocumented data transformations
-
----
-
-## Example R Script - Before
-
-```r
-# DE analysis
-setwd("/home/user/projects/covid_analysis/")
-data <- read.csv("data.csv")
-meta <- read.csv("metadata.csv")
-library(DESeq2)
-library(ggplot2)
-
-for (i in 1:ncol(data)) {
-  if (i > 1) {
-    data[,i] = as.numeric(data[,i])
-  }
-}
-
-dds <- DESeqDataSetFromMatrix(countData=data[,2:ncol(data)], 
-                              colData=meta, 
-                              design=~condition)
-dds <- DESeq(dds)
-res <- results(dds)
-
-pdf("plot.pdf")
-plotMA(res)
-dev.off()
-
-write.csv(res, "results.csv")
-```
-
----
-
-## Example R Script - After
-
-```r
-#!/usr/bin/env Rscript
-#
-# Title: Differential Expression Analysis for COVID-19 Study
-# Author: Your Name
-# Date: 2023-03-15
-# Description: Performs DE analysis on RNA-seq data from COVID-19 patients
-
-# Load required libraries
-suppressPackageStartupMessages({
-  library(DESeq2)
-  library(ggplot2)
-  library(here)  # For project-relative paths
-})
-
-# Define paths using relative references
-project_dir <- here::here()
-data_path <- file.path(project_dir, "data", "raw", "counts.csv")
-meta_path <- file.path(project_dir, "data", "raw", "metadata.csv")
-results_dir <- file.path(project_dir, "results")
-dir.create(results_dir, showWarnings = FALSE, recursive = TRUE)
-
-# Read and validate input data
-message("Reading input data...")
-counts <- read.csv(data_path, row.names = 1)
-metadata <- read.csv(meta_path, row.names = 1)
-
-# Ensure input data is valid
-if (ncol(counts) != nrow(metadata)) {
-  stop("Number of samples in count data does not match metadata")
-}
-
-# Convert count columns to numeric
-counts[] <- lapply(counts, function(x) as.numeric(as.character(x)))
-
-# Create DESeq2 dataset
-message("Creating DESeq2 dataset...")
-dds <- DESeqDataSetFromMatrix(
-  countData = counts,
-  colData = metadata,
-  design = ~condition
-)
-
-# Run DE analysis
-message("Running differential expression analysis...")
-dds <- DESeq(dds)
-res <- results(dds, alpha = 0.05)  # Set significance threshold
-
-# Create MA plot
-message("Generating visualizations...")
-ma_plot_path <- file.path(results_dir, "MA_plot.pdf")
-pdf(ma_plot_path, width = 8, height = 6)
-plotMA(res, main = "MA Plot of Differential Expression")
-dev.off()
-
-# Save results
-message("Saving results...")
-results_path <- file.path(results_dir, "differential_expression_results.csv")
-write.csv(res, results_path)
-
-message("Analysis complete. Results saved to: ", results_dir)
-```
 ---
 ## LLM's - your friend or foe
 We live in a time where coding assistants can do some of this for you. 
@@ -509,6 +418,15 @@ We live in a time where coding assistants can do some of this for you.
 ---
 ## Summary 
 
-- It doesn't need to be perfect and you don't need to do it alone 
+- It doesn't need to be perfect and you don't need to do it alone!
 - Think about it earlier rather than later
-- The more you practice the more 
+- Practice -> Embed good habits -> Less extra work at publication
+
+---
+## My gripes 
+- Stop using read.delim() -> used read_delim()
+- Stop using data.frame() -> use tibble()
+- Stop using for loops in R -> use lapply() or even better map()
+- 
+
+
