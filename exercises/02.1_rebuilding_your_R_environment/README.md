@@ -4,7 +4,7 @@ This exercise will teach you how to use an `.renv` lock file to record your anal
 
 
 ## Create an Renv lock file
-Open an R session in the terminaln or and Rstudio session (see Jamie's demo) and try installing a couple of packages with `renv`
+Open an R session in the terminal or and Rstudio session (see Jamie's demo) and try installing a couple of packages with `renv`
 
 ```R
 ## Install two mini packages

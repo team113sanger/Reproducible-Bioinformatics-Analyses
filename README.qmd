@@ -21,73 +21,84 @@ format:
 ---
 ## TLDR
 If you only take away 3 thing's from today:
-- Use `here()` and relative paths in your R scripts (No more ~/Downloads/jb63/etc)
-- Use `renv()` to record your projects dependencies
-- There's early you tidy up your projects (and put them in git) the better.
-
+- Use relative paths + tools for handling them in your projects (No more `~/Downloads/jb63/etc`)
+- Use `renv`, pip freeze, and conda export to record your project's dependencies as a file
+- The early you tidy up your projects (**and put them in git**) the better!
 
 ---
-
 
 # 1. Why Reproducibility Matters
 
 > "An article about computational science **with a means for reporducing it out** in a scientific publication is **not** the scholarship itself, it is merely **advertising** of the scholarship..."
 >
-> -- Jonathan Buckheit and David Donoho, 1995 / Me, 2025
+> -- Jonathan Buckheit and David Donoho, 1995 
+
+
+>"Pics or It Didn't Happen"
+>
+> --  Me, 2025
 
 ---
-## Benefits of reproducible code
+## The carrot: Benefits of reproducible code
 
-* **Scientific integrity**: Results can be verified
-* **Collaboration**: Others can build on your work
+* **Scientific integrity**: You analysis can be verified
+* **Collaboration**: Others can build on your work more easily
 * **Efficiency**: Less time spent recreating past work
-* **Impact**: More citations for usable code
+* **Impact**: (Supposedly) more citations for usable code
 
 ---
 
-## Evolving Journal Requirements
+## The stick: Evolving Journal Requirements
 
 * **2010s**: Code "available upon request"
 * **2015-2020**: Code in supplementary materials or repository
-* **2020+**: Executable code, containers, and code capsules
-* **Today**: Some journals running automated testing of submitted code
+* **2020+**: Code avaiable as a citeable, persistent repository
+* **2025+**: Executable code, containers, and code capsules
 
 ---
 
 ## Journal Requirements Examples
-
+* Several places: **Authors must deposit all raw data in an appropriate repository prior to peer review** 
 * **Nature**: Code must be "available in a persistent repository"
 * **Science**: Code availability statement, encouraged to use containers
 * **PLOS**: Code must be in a repository with a DOI
 * **eLife**: Docker containers encouraged, Code Execution Editor
-* **Genome Biology**: Code must be under version control, containers preferred
+* **Genome Biology**: Code must be under version control
 
 ---
-## The current state of things
+
+---
+## Now 
+Techinically all code has to have a "persistent identifier" and be citeable
+Makes them citeable [](!resources/DOI_repo.png) 
+---
+
+## Where things look to be heading
+
 CodeOcean: [Code Ocean](https://codeocean.com/capsule/9835100/tree/v1)
 
 ---
 
-## Reproducing Your Own Work
-
-### Common scenarios:
-
-* Reviewer asks for changes 6 months after submission
-* Need to apply existing analysis to new data
-* Collaborator wants to run your analysis
-* Your future self needs to revisit analysis
-
-
-# 2. Project Organization
+# 2. How to get ther more easilty Project Organization
 
 ## Project Structure Principles
 
-1. Intuitive for a stranger
-2. "Separation of concerns"
-3. Consistent naming
-4. Self-documentation
+Projects should be:
+1. Have a structure that is intuitive for a stranger
+2. Have "separation of concerns" (data, code, metadata, documentation)
+3. Be self-documentated
 
 ---
+
+---
+## What Should You Document?
+
+* **Data**: Sources, cleaning steps, versions
+* **Methods**: Algorithms, parameters, rationale
+* **Results**: Interpretation, validation, limitations (if not in the paper)
+* **Workflow**: Order of operations, dependencies
+* **Environment**: Software versions, configurations
+--- 
 
 ## Directory Structure
 
@@ -98,7 +109,7 @@ project/
 ├── data/
 │   ├── raw/
 │   └── processed/
-├── src/
+├── src/ or scripts/
 │   ├── preprocessing/
 │   ├── analysis/
 │   └── visualization/
@@ -107,16 +118,7 @@ project/
 │   └── tables/
 └── environment/
 ```
-
----
-Sequencing 
-```
-01_do_x.sh
-02_do_y.sh
-03_do_z.sh
-```
----
-
+--- 
 ## What to Include & Exclude
 
 **Include**:
@@ -140,11 +142,9 @@ Sequencing
 
 A good README should include:
 
-1. Project title and description
-2. Installation instructions
-3. Usage instructions
-4. Input and output descriptions
-5. Examples
+1. The project title and description
+2. Instructions on how to reproduce the analysis
+3. Some description of the inputs and outputs
 6. Dependencies
 7. Contact information
 
@@ -156,19 +156,20 @@ A good README should include:
 # Differential Expression Analysis of COVID-19 Lung Samples
 
 ## Overview
-This repository contains code for analyzing RNA-seq data from COVID-19 patients.
+This repository contains code for analyzing RNA-seq data from COVID-19 patients in paper X
+DOI: djksnkaboufo90120l
 
 ## Requirements
-- R 4.1.0 or higher
+- R 4.1.0
 - Bioconductor 3.13
-- DESeq2, edgeR, limma packages
+- DESeq2, edgeR, limma packages (even better - have an Renv lock file)
 
 ## Installation
 1. Clone this repository
 2. Install R dependencies: `Rscript install_deps.R`
 
 ## Usage
-1. Place fastq files in `data/raw/`
+1. Retrieve fastq files from EGA study X
 2. Run preprocessing: `Rscript src/preprocessing/quality_control.R`
 3. Run differential expression: `Rscript src/analysis/diff_exp.R`
 
@@ -187,48 +188,21 @@ Results will be generated in the `results/` directory.
 * **Directories**: logical grouping, consistent pattern
 
 ---
+## Tips
 
-## Separating Code, Data, and Results
-
-* **Data**: Raw data should be read-only
-* **Code**: Scripts should be modular and focused
-* **Results**: Generated programmatically, not manually
 
 ::: {.callout-tip}
 Use relative paths instead of absolute paths:
 ```r
 # Good
 data_path <- file.path("data", "raw", "counts.csv")
+# or
+data_path <- here("data", "raw", "counts.csv")
 
 # Bad
 data_path <- "/home/user/projects/analysis/data/raw/counts.csv"
 ```
 :::
-
----
-
-## Exercise: Organizing a Project
-
-**Scenario**: You have a directory with:
-- Fastq files
-- R scripts
-- Python scripts
-- Excel files with metadata
-- PDFs of papers
-- Figures in various formats
-- Notes in text files
-
-**Task**: Create a proper structure for these files, explaining your decisions.
-
----
-## What Should You Document?
-
-* **Data**: Sources, cleaning steps, versions
-* **Methods**: Algorithms, parameters, rationale
-* **Results**: Interpretation, validation, limitations
-* **Workflow**: Order of operations, dependencies
-* **Environment**: Software versions, configurations
-
 ---
 
 # 4. Environment Management
@@ -261,14 +235,14 @@ data_path <- "/home/user/projects/analysis/data/raw/counts.csv"
 renv::init()
 
 # Install packages
-install.packages("tidyverse")
-install.packages("DESeq2")
+renv::install("tidyverse")
+renv::install("DESeq2")
 
 # Snapshot dependencies
 renv::snapshot()
 ```
 
-This creates `renv.lock` which records exact package versions.
+This creates `renv.lock` which records exact package versions you used at the time of creation
 
 ---
 
@@ -288,7 +262,6 @@ python -m venv myenv
 
 # Activate
 source myenv/bin/activate  # Linux/Mac
-myenv\Scripts\activate     # Windows
 
 # Install packages
 pip install pandas scikit-learn
@@ -321,6 +294,7 @@ conda env export > environment.yml
 * Include OS, dependencies, code
 * Consistent across computing environments
 * "Write once, run anywhere"
+* Better than conda basically all ways
 
 ---
 
@@ -330,8 +304,8 @@ conda env export > environment.yml
 ::: {.column width="45%"}
 **Docker**:
 - Industry standard
-- Not always allowed on HPC
-- Root privileges
+- Not always allowed on HPC (inc sanger farm)
+- Root privileges (Dangerous!)
 - Dockerfile format
 :::
 
@@ -345,13 +319,23 @@ conda env export > environment.yml
 ::::
 
 ---
+## Why containers rule
+Demo time. You should be able to try these in your codespace
+```
+docker run quay.io/wtsicgp/valiant:4.0.0 valiant --help
+```
+```
+docker run quay.io/team113sanger/bagel2:f9eedca BAGEL.py --help
+```
+```
+docker run -it quay.io/biocontainers/repeatmasker:4.1.7p1--pl5321hdfd78af_1 repeat-masker --help
+```
+
 
 ## Anatomy of a Dockerfile
 
 ```dockerfile
 FROM python:3.9-slim
-
-WORKDIR /app
 
 # Install system dependencies
 RUN apt-get update && apt-get install -y \
@@ -503,6 +487,13 @@ write.csv(res, results_path)
 
 message("Analysis complete. Results saved to: ", results_dir)
 ```
+---
+## LLM's - your friend or foe
+We live in a time where coding assistants can do some of this for you. 
+- In Github Feed project context into Claude 
+- Go ahead! But be mindful of what you get out... 
+
+---
 
 ---
 
@@ -514,3 +505,10 @@ message("Analysis complete. Results saved to: ", results_dir)
 * Get help with implementation
 
 ---
+
+---
+## Summary 
+
+- It doesn't need to be perfect and you don't need to do it alone 
+- Think about it earlier rather than later
+- The more you practice the more 
