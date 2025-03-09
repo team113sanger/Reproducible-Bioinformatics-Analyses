@@ -8,10 +8,6 @@ format:
     transition: none
 ---
 
-![stong_weak](resources/9msdxj.jpg)
-
----
-
 ## Workshop Overview
 
 1. Why Reproducibility Matters
@@ -19,6 +15,10 @@ format:
 3. Documentation
 4. Environment Management
 5. Hands-on Project Cleanup + Docker
+
+---
+
+![stong_weak](resources/9msdxj.jpg)
 
 ---
 
