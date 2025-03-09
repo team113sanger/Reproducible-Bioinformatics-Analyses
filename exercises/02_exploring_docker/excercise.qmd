@@ -6,6 +6,16 @@ This exercise will teach you how to create a Docker image for R, python and cond
 
 We're starting with a basic Dockerfile that uses the `rocker/tidyverse:4.2.0` image and adds a few common R packages:
 
+You can fetch and run an environment from this image with a simple command
+```
+docker run -it rocker/tidyverse:4.2.0 R
+```
+and then to 
+
+
+We can create a new environment, with more packages by creating a dockerfile and specifying those dependencies.
+For instance: 
+
 ```dockerfile
 FROM rocker/tidyverse:4.2.0
 # Install additional packages from CRAN
@@ -15,11 +25,16 @@ RUN install2.r --error \
  knitr
 ```
 
+
+
+
+
 ## Your Task
 
 Extend (`exercises/02_exploring_docker/02.1_docker_101_R/Dockerfile`) to include two additional R packages:
 1. `glue` - A string interpolation package for R
 2. `here` - A package that helps with file path handling in projects
+3. `yaml` - A package for reading yaml files
 
 ## Building Your Docker Image
 
