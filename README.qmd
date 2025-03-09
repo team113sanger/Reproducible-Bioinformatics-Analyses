@@ -42,6 +42,7 @@ If you only take away three things from today:
 > --  Me, 2025
 
 ---
+
 ## The carrot: Benefits of reproducible code
 
 * **Scientific integrity**
@@ -106,6 +107,7 @@ Projects should be have a structure that is intuitive for a stranger
 * **Results**: Interpretation, validation, limitations (if not in the paper)
 * **Workflow**: Order of operations, dependencies
 * **Environment**: Software versions, configurations
+
 --- 
 
 ## Directory Structure
@@ -186,7 +188,7 @@ Use relative paths instead of absolute paths:
 ```r
 # Good
 data_path <- file.path("data", "raw", "counts.csv")
-# or
+# or
 data_path <- here("data", "raw", "counts.csv")
 
 # Bad
@@ -410,5 +412,3 @@ Stop using data.frame() -> use tibble()
 Stop using for loops in R -> use lapply() or even better map()
 
 ---
-
-
