@@ -1,118 +1,144 @@
-# Docker 101: Extending a Rocker Image
+# Docker 101: Managing Scientific Environments with Docker
 
-This exercise will teach you how to create a Docker image for R, python and conda that captures your environment adding additional packages to an existing "base" images
+This tutorial will guide you through creating and extending Docker images for R analysis environments. You'll learn how to capture dependencies and ensure reproducibility across different systems.
 
-## The Base Dockerfile
+## Part 1: Extending a Rocker Image
 
-We're starting with a basic Dockerfile that uses the `rocker/tidyverse:4.2.0` image and adds a few common R packages:
+### Introduction
+Docker allows us to create isolated environments with specific software versions. For R users, the `rocker` project provides pre-built images with R and common packages installed.
 
-You can fetch and run an environment from this image with a simple command
-```
+### The Base Dockerfile
+We'll start with a basic Dockerfile that uses the `rocker/tidyverse:4.2.0` image, which comes with R 4.2.0 and the tidyverse packages pre-installed.
+
+You can run this base image with a simple command:
+
+```bash
 docker run -it rocker/tidyverse:4.2.0 R
 ```
-and then to 
 
+This will start an R session inside a Docker container with the tidyverse packages already available.
 
-We can create a new environment, with more packages by creating a dockerfile and specifying those dependencies.
-For instance: 
+### Creating a Custom Environment
+
+To add more packages to this environment, we can create a Dockerfile that extends the base image:
 
 ```dockerfile
 FROM rocker/tidyverse:4.2.0
+
 # Install additional packages from CRAN
 RUN install2.r --error \
- rmarkdown \
- shiny \
- knitr
+    rmarkdown \
+    shiny \
+    knitr
 ```
 
+### Your Task
+Modify the Dockerfile in `exercises/02_exploring_docker/02.1_docker_101_R/Dockerfile` to include three additional R packages:
 
+1. `cowplot` - A package that helps plotting multi-panel
+2. `ggsci` - Another package that helps plotting scientific figures
+3. `styler` - A package for cleaning up R code
 
-
-
-## Your Task
-
-Extend (`exercises/02_exploring_docker/02.1_docker_101_R/Dockerfile`) to include two additional R packages:
-1. `glue` - A string interpolation package for R
-2. `here` - A package that helps with file path handling in projects
-3. `yaml` - A package for reading yaml files
-
-## Building Your Docker Image
-
-Once you've modified the Dockerfile, build your image using:
+### Building Your Docker Image
+Once you've modified the Dockerfile, build your image with:
 
 ```bash
 cd exercises/02_exploring_docker/02.1_docker_101_R
 docker build -t my-r-environment .
 ```
-This instructs docker to build an "image" using the dockerfile in that folder and that we will call that image `my-r-environment`
 
-## Testing Your Image
+This command tells Docker to build an image using the Dockerfile in the current directory (`.`) and tag it as `my-r-environment`.
 
-You can now your image with:
+### Testing Your Image
+To verify that your image was built correctly with all required packages, run:
 
 ```bash
-docker run --rm -it my-r-environment R -e "library(glue); library(here); cat('Packages loaded successfully!\n')"
+docker run --rm -it my-r-environment R -e "library(glue); library(here); library(yaml); cat('All packages loaded successfully!\n')"
 ```
 
-This boots up a "container" (an instance of the image - in this case my-r-environment 
+This command:
+- Creates a container from your image
+- Runs R with the command to load your packages
+- Removes the container after it finishes (`--rm`)
+- Uses interactive mode with a terminal (`-it`)
 
-
-## Solution
+### Solution
 
 <details>
 <summary>Click to reveal the solution</summary>
 
 ```dockerfile
 FROM rocker/tidyverse:4.2.0
+
 # Install additional packages from CRAN
 RUN install2.r --error \
- rmarkdown \
- shiny \
- knitr \
- glue \
- here
+    rmarkdown \
+    shiny \
+    knitr \
+    glue \
+    here \
+    yaml
 ```
-
 </details>
 
+## Part 2: Recording and Rebuilding Your Environment with renv
 
-# Recording and rebuilding your environment
+Instead of manually specifying packages in a Dockerfile, we can use `renv` to automatically track and restore package dependencies.
 
-In the next exercise, we will explore you how to use an `.renv` lock file to record your analysis dependencies and then rebuild that environment with docker.
+### Create an renv Lock File
 
-
-## Create an Renv lock file
-Open an R session in the terminal or and Rstudio session (see Jamie's demo) and try installing a couple of your favourite pacakges packages with `renv`.
-
-For example you could do:
+1. Open an R session (either in the terminal or in RStudio)
+2. Install some packages with `renv`:
 
 ```R
-## Install two mini packages
+# Initialize renv for your project
+renv::init()
+
+# Install packages
 renv::install("glue")
 renv::install("here")
-## Create a snapshot that records your new added packages
+renv::install("yaml")
+
+# Create a snapshot of your environment
 renv::snapshot()
 ```
-Now that we have the 
+
+This creates an `renv.lock` file that records all your dependencies with exact versions.
+
+### Building a Docker Image from the Lock File
+
+Navigate to the exercise directory:
+
 ```bash
 cd /workspaces/Reproducible-Bioinformatics-Analyses/exercises/02_exploring_docker/02.1_rebuilding_your_R_environment
-docker build -t example_renv . 
+docker build -t example_renv .
 ```
-## Now you can run code in your rebuilt environment with 
+
+The Dockerfile in this directory should be set up to use your `renv.lock` file to rebuild the exact same environment.
+
+### Running Your Environment
+
 ```bash
 docker run -it example_renv R
 ```
-This should open an R terminal where in theory you could run commands with all the packages you need pre-installed.
 
-
-
+This opens an R session with all the packages from your `renv.lock` file pre-installed and ready to use.
 
 ## Next Steps
 
-After completing this exercise, you might want to:
-- Add more complex dependencies to your Docker image - how could you handle bioconductor packages?
-- Create a custom R script and run it inside the container
-- Mount a volume to share data between your host and the container
-- Learn how to push your image to Docker Hub or a private registry
+After completing these exercises, consider exploring:
+
+- Adding Bioconductor packages to your Docker image
+- Creating a custom R script and running it in your container
+- Mounting volumes to share data between your host system and the container
+- Pushing your image to Docker Hub or a private registry for sharing
+
+## Extra Challenge
+
+Try creating a multi-stage Docker build that:
+1. Uses one container to create the `renv.lock` file
+2. Uses another container to build the final image with just the necessary packages
+
+This approach can result in smaller, more efficient images.
 
 Happy Dockerizing!

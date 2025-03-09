@@ -8,6 +8,10 @@ format:
     transition: none
 ---
 
+![stong_weak](resources/9msdxj.jpg)
+
+---
+
 ## Workshop Overview
 
 1. Why Reproducibility Matters
@@ -20,16 +24,16 @@ format:
 
 ---
 ## TLDR
-If you only take away 3 thing's from today:
-- Use relative paths your projects
-- Use renv, pip freeze, and conda export
+If you only take away thee things from today:
+- **Use relative paths your projects**
+- **Use renv, pip freeze, and conda export**
 - The early you tidy up your projects (**and put them in git**) the better!
 
 ---
 
 # 1. Why Reproducibility Matters
 
-> "An article about computational science **without a means for reporducing it** in a scientific publication is **not** the scholarship itself, it is merely **advertising** of the scholarship..."
+> "An article about computational science **without a means for reproducing it** in a scientific publication is **not** the scholarship itself, it is merely **advertising** of the scholarship..."
 >
 > -- Jonathan Buckheit and David Donoho, 1995 
 
@@ -51,7 +55,7 @@ If you only take away 3 thing's from today:
 
 * **2010s**: Code "available upon request"
 * **2015-2020**: Code in supplementary materials or repository
-* **2020-2025**: Code avaiable as a citeable, persistent repository
+* **2020-2025**: Code available as a citeable, persistent repository
 * **2025+**: Executable code, containers, and code capsules
 
 ---
@@ -66,7 +70,7 @@ If you only take away 3 thing's from today:
 
 ---
 
-## Now 
+## Current requirements PSA! 
 
 Techinically, all code has to have a "persistent identifier" and be citeable
 - Zenodo the easiest way as you can snapshot GitHub "releases"
@@ -197,7 +201,7 @@ data_path <- "/home/user/projects/analysis/data/raw/counts.csv"
 ## Tips: Cleaning up code
 
 ::: {.callout-tip}
-Use styler to reformat your code and make it more consistent + Readable
+Use styler to reformat your R code and make it more consistent + readable
 ```r
 install.packages("styler")
 library(styler)
