@@ -22,8 +22,8 @@ format:
 
 ---
 
----
 ## TLDR
+
 If you only take away thee things from today:
 - **Use relative paths your projects**
 - **Use renv, pip freeze, and conda export**
@@ -99,7 +99,6 @@ Projects should be have a structure that is intuitive for a stranger
 
 ---
 
----
 ## What Should You Document?
 
 * **Data**: Sources, cleaning steps, versions
@@ -196,8 +195,6 @@ data_path <- "/home/user/projects/analysis/data/raw/counts.csv"
 :::
 ---
 
-
----
 ## Tips: Cleaning up code
 
 ::: {.callout-tip}
@@ -208,13 +205,10 @@ library(styler)
 
 styler::style_dir(".")
 ```
-This will rewrite your code, making spaces constient, splitting up long lines etc.
 
 :::
 ---
 
-
----
 ## Tips: Testing your code runs for someone else
 
 ::: {.callout-tip}
@@ -233,7 +227,6 @@ This should complete without throwing an error.
 ## LLM's - your friend or foe?
 
 We live in a time where coding assistants can do some of this for you
-- Feed GitHub project directly into Claude, or paste in for feedback from ChatGPT
 - Go ahead! But be mindful to scrutinise what you get out... 
 - Rule of thumb - use LLMs to solve problems you understand
 
@@ -338,11 +331,10 @@ conda env export > environment.yml
 ## Introduction to Containers
 
 **What are containers?**
-* Isolated, portable environments
+* Isolated, portable and shareable environments
 * Include OS, dependencies, code
 * Consistent across computing environments
 * "Write once, run anywhere"
-* Better than conda in basically all ways
 
 ---
 
@@ -405,19 +397,14 @@ CMD ["python", "src/main.py"]
 
 ---
 
-## Exercise: Working with Docker to rebuild environments
+## Excercises 
 
-**Task**: For a project using:
-- R 4.1 with DESeq2, ggplot2, dplyr
-- Python 3.9 with pandas, matplotlib, scikit-learn
-- samtools, bedtools, and STAR aligner
+For the rest of this session I've built two tutorials, one focused on setting up a research code project, one focused on docker. 
+These are designed so that they can be run in the VScode terminal or Rstudio
 
-Create:
-1. An renv.lock (for R)
-2. A requirements.txt (for Python)
-3. A basic Dockerfile
-
----
+For those that want to work in Rstudio, watch the demo and 
+login: rstudio
+password: rstudio
 
 
 ---
@@ -435,14 +422,14 @@ Create:
 ## Summary 
 
 It doesn't need to be perfect and you don't need to do it alone!
-Think about it earlier rather than later.
-Practice -> Embed good habits -> Less extra work at publication.
+ - Think about it earlier rather than later.
+ - Practice -> Embed good habits -> Less extra work at publication 
 
 ---
 
 ## Finally... my public service announcements
 
-Stop using read.delim() -> used read_delim()
+Stop using read.delim() -> used read_tsv() or read_csv()
 Stop using data.frame() -> use tibble()
 Stop using for loops in R -> use lapply() or even better map()
 
