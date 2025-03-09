@@ -6,5 +6,6 @@ RUN install2.r --error \
     shiny \
     knitr 
 
-## Add in the glue and here packages
+
+## Add in the cowplot, ggsci and styler packages
 

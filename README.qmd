@@ -14,22 +14,26 @@ format:
 2. Project Organization
 3. Documentation
 4. Environment Management
-5. Hands-on Project Cleanup
+5. Hands-on Project Cleanup + Docker
 
 ---
 
+![stong_weak](resources/9msdxj.jpg)
+
 ---
+
 ## TLDR
-If you only take away 3 thing's from today:
-- Relative paths your projects (Please never `setwd(~/Downloads/jb63/etc)` again!)
-- renv, pip freeze, and conda export
-- The early you tidy up your projects (**and put them in git**) the better!
+
+If you only take away three things from today:
+- **Use relative paths in your projects**
+- **Use renv, pip freeze, and conda export**
+- The earlier you tidy up your projects (**and put them in git**) the better!
 
 ---
 
 # 1. Why Reproducibility Matters
 
-> "An article about computational science **with a means for reporducing it out** in a scientific publication is **not** the scholarship itself, it is merely **advertising** of the scholarship..."
+> "An article about computational science **without a means for reproducing it** in a scientific publication is **not** the scholarship itself, it is merely **advertising** of the scholarship..."
 >
 > -- Jonathan Buckheit and David Donoho, 1995 
 
@@ -38,6 +42,7 @@ If you only take away 3 thing's from today:
 > --  Me, 2025
 
 ---
+
 ## The carrot: Benefits of reproducible code
 
 * **Scientific integrity**
@@ -51,26 +56,30 @@ If you only take away 3 thing's from today:
 
 * **2010s**: Code "available upon request"
 * **2015-2020**: Code in supplementary materials or repository
-* **2020-2025**: Code avaiable as a citeable, persistent repository
+* **2020-2025**: Code available as a citeable, persistent repository
 * **2025+**: Executable code, containers, and code capsules
 
 ---
 
 ## Journal Requirements
-* Several places **Authors must deposit all raw data in an appropriate repository prior to peer review**
-and  
+
 * **Nature**: Code must be "available in a persistent repository"
 * **PLOS**: Code must be in a repository with a DOI
 * **Genome Biology**: Code must be under version control and with citeable repository
 
----
+* Key thing to remember **Authors must deposit all raw data in an appropriate repository prior to peer review**
 
 ---
-## Now 
-Techinically all code has to have a "persistent identifier" and be citeable
-Makes them citeable [](!resources/DOI_repo.png). 
-Zenodo the easiest way as you can snapshot GitHub "releases"
+
+## Current requirements PSA! 
+
+Technically, all code has to have a "persistent identifier" and be citeable
+- Zenodo is the easiest way as you can [snapshot GitHub "releases"](https://docs.github.com/en/repositories/archiving-a-github-repository/referencing-and-citing-content)
+- This makes them citeable. Add to paper and add a badge to the repository
+![DOI](resources/DOI_repo.png)
+
 ---
+
 
 ## Where things look to be heading
 
@@ -79,7 +88,7 @@ Zenodo the easiest way as you can snapshot GitHub "releases"
 
 ---
 
-# 2. How to get there more easilty: project Organization
+# 2. How to get there more easilty: project organization
 
 ## Project Structure Principles
 
@@ -91,7 +100,6 @@ Projects should be have a structure that is intuitive for a stranger
 
 ---
 
----
 ## What Should You Document?
 
 * **Data**: Sources, cleaning steps, versions
@@ -99,6 +107,7 @@ Projects should be have a structure that is intuitive for a stranger
 * **Results**: Interpretation, validation, limitations (if not in the paper)
 * **Workflow**: Order of operations, dependencies
 * **Environment**: Software versions, configurations
+
 --- 
 
 ## Directory Structure
@@ -179,7 +188,7 @@ Use relative paths instead of absolute paths:
 ```r
 # Good
 data_path <- file.path("data", "raw", "counts.csv")
-# or
+# or
 data_path <- here("data", "raw", "counts.csv")
 
 # Bad
@@ -188,36 +197,43 @@ data_path <- "/home/user/projects/analysis/data/raw/counts.csv"
 :::
 ---
 
-
----
 ## Tips: Cleaning up code
 
 ::: {.callout-tip}
-Use styler to reformat your code and make it more consistent + Readable
+Use styler to reformat your R code and make it more consistent + readable
 ```r
 install.packages("styler")
 library(styler)
 
 styler::style_dir(".")
 ```
-This will rewrite your code
 
 :::
 ---
 
-
----
-## Tips: Cleaning up code
+## Tips: Testing your code runs for someone else
 
 ::: {.callout-tip}
-Test run your code 
+Easiest way is to run your code non-interatively with
 ```bash
 Rscript analysis.R
+## or
 python3 analysis.py
+## or
+bash my_script.sh
 ```
-should complete without throwing an error.
+This should complete without throwing an error.
 :::
 ---
+
+## LLM's - your friend or foe?
+
+We live in a time where coding assistants can do some of this for you
+- Go ahead! But be mindful to scrutinise what you get out... 
+- Rule of thumb - use LLMs to solve problems you understand
+
+---
+
 # 4. Environment Management
 
 ## The Problem: Dependency Hell
@@ -236,7 +252,7 @@ should complete without throwing an error.
 :::
 ::::
 
-Solution: Snapshot your environment so that you can share it 
+Part of the solution: snapshot your environment so that you can share it 
 ---
 
 ## Capturing Environments in R
@@ -255,31 +271,21 @@ renv::install("glue")
 renv::snapshot()
 ```
 
-Creates `renv.lock` which records exact package versions you used at the time of creation. 
-Never manually enter them again!
+Creates an `renv.lock` which records exact package versions you used at the time of creation. 
+Never manually write them down them again!
 
 ---
 
 ## Capturing Environment in Python
 
-**Using pip and requirements.txt**:
+**Using pip and a requirements.txt file**:
 
 ```bash
 # Generate requirements.txt
 pip freeze > requirements.txt
 ```
+Or for the more adventurous pytho-nistas take a look at poetry and its lockfiles for recording environments.
 
-**Using virtual environments**:
-```bash
-# Create virtual environment
-python -m venv myenv
-
-# Activate
-source myenv/bin/activate  # Linux/Mac
-
-# Install packages
-pip install pandas scikit-learn
-```
 
 ---
 
@@ -304,11 +310,10 @@ conda env export > environment.yml
 ## Introduction to Containers
 
 **What are containers?**
-* Isolated, portable environments
+* Isolated, portable and shareable environments
 * Include OS, dependencies, code
 * Consistent across computing environments
 * "Write once, run anywhere"
-* Better than conda in basically all ways
 
 ---
 
@@ -317,8 +322,8 @@ conda env export > environment.yml
 :::: {.columns}
 ::: {.column width="45%"}
 **Docker**:
-- Standard in all computational work
-- Not always allowed on HPC (inc. sanger farm)
+- Standard in the rest of the computational world
+- Not always allowed on HPC (inc. Sanger farm)
 - Root privileges (Dangerous!)
 - Dockerfile format
 :::
@@ -333,21 +338,28 @@ conda env export > environment.yml
 ::::
 
 ---
+
 ## Why containers rule
-Demo time! You should be able to try these in your codespace. 
-I've compiled a set of tools we often use in the lab. How easy is it to set them up?
-```
+
+Demo time! You should be able to try these in your codespace. I've compiled a set of tools we often use in the lab. How easy is it to set them up?
+
+```bash
 docker run quay.io/wtsicgp/valiant:4.0.0 valiant --help
 ```
-```
+
+```bash
 docker run quay.io/team113sanger/bagel2:f9eedca BAGEL.py --help
 ```
-```
+
+```bash
 docker run -it quay.io/biocontainers/repeatmasker:4.1.7p1--pl5321hdfd78af_1 repeat-masker --help
 ```
 
+---
 
 ## How does it work? Anatomy of a Dockerfile
+
+A recipe for all the components a tool requries
 
 ```dockerfile
 FROM python:3.9-slim
@@ -360,73 +372,43 @@ RUN apt-get update && apt-get install -y \
 # Install Python dependencies
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
-
-# Copy code
-COPY src/ /app/src/
-
-# Default command
-CMD ["python", "src/main.py"]
 ```
 
 ---
 
-## Exercise: Creating Environment Files
+## Excercises 
 
-**Task**: For a project using:
-- R 4.1 with DESeq2, ggplot2, dplyr
-- Python 3.9 with pandas, matplotlib, scikit-learn
-- samtools, bedtools, and STAR aligner
+For the rest of this session I've built two tutorials, one focused on setting up a research code project, one focused on docker. 
+These are designed so that they can be run in the VScode terminal or Rstudio
 
-Create:
-1. An renv.lock (for R)
-2. A requirements.txt (for Python)
-3. A basic Dockerfile
-
----
-
-# 5. Hands-on Project Reproducibility
-
-## Project Cleanup Checklist
-
-1. **Organization**: Directory structure, file naming
-2. **Documentation**: README, in-code comments, notebooks
-3. **Environment**: Record the Dependency specification
-4. **Code quality**: Consistent style, error handling
-5. **Data management**: Raw vs. processed, paths
-
----
-
----
-## LLM's - your friend or foe
-We live in a time where coding assistants can do some of this for you. 
-- In Github Feed project context into Claude 
-- Go ahead! But be mindful of what you get out... 
-
----
+For those that want to work in Rstudio, watch the demo and 
+login: rstudio
+password: rstudio
 
 ---
 
 ## Bring Your Own Project!
 
-* Apply what we've learned to your own projects
-* Identify areas for improvement
-* Work on specific issues
-* Get help with implementation
+* Apply what we've learned to one of your own projects
+* Identify some areas for improvement
+* Ask for some advice with their implementation
+
 
 ---
 
----
 ## Summary 
 
-- It doesn't need to be perfect and you don't need to do it alone!
-- Think about it earlier rather than later
-- Practice -> Embed good habits -> Less extra work at publication
+It doesn't need to be perfect and you don't need to do it alone!
+ - Think about it earlier rather than later. 
+ - Prioritise you project org. Docker is less burning an issue 
+ - Practice -> Embed good habits -> Less extra work at publication 
 
 ---
-## My gripes 
-- Stop using read.delim() -> used read_delim()
-- Stop using data.frame() -> use tibble()
-- Stop using for loops in R -> use lapply() or even better map()
-- 
 
+## Finally... my public service announcements
 
+Stop using read.delim() -> used read_tsv() or read_csv()
+Stop using data.frame() -> use tibble()
+Stop using for loops in R -> use lapply() or even better map()
+
+---
