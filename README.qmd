@@ -29,7 +29,7 @@ If you only take away 3 thing's from today:
 
 # 1. Why Reproducibility Matters
 
-> "An article about computational science **with a means for reporducing it out** in a scientific publication is **not** the scholarship itself, it is merely **advertising** of the scholarship..."
+> "An article about computational science **without a means for reporducing it** in a scientific publication is **not** the scholarship itself, it is merely **advertising** of the scholarship..."
 >
 > -- Jonathan Buckheit and David Donoho, 1995 
 
@@ -66,12 +66,15 @@ If you only take away 3 thing's from today:
 
 ---
 
----
 ## Now 
-Techinically all code has to have a "persistent identifier" and be citeable
-Makes them citeable [](!resources/DOI_repo.png). 
-Zenodo the easiest way as you can snapshot GitHub "releases"
+
+Techinically, all code has to have a "persistent identifier" and be citeable
+- Zenodo the easiest way as you can snapshot GitHub "releases"
+- Makes them citeable 
+![DOI](resources/DOI_repo.png) 
+
 ---
+
 
 ## Where things look to be heading
 
@@ -222,15 +225,15 @@ bash my_script.sh
 This should complete without throwing an error.
 :::
 ---
----
+
 ## LLM's - your friend or foe?
-We live in a time where coding assistants can do some of this for you. 
-- Feed GitHub project directly into Claude, or get feedback from ChatGPT
+
+We live in a time where coding assistants can do some of this for you
+- Feed GitHub project directly into Claude, or paste in for feedback from ChatGPT
 - Go ahead! But be mindful to scrutinise what you get out... 
 - Rule of thumb - use LLMs to solve problems you understand
 
 ---
-
 
 # 4. Environment Management
 
@@ -422,20 +425,23 @@ Create:
 * Work on specific issues
 * Get help with implementation
 
----
 
 ---
+
 ## Summary 
 
-- It doesn't need to be perfect and you don't need to do it alone!
-- Think about it earlier rather than later
-- Practice -> Embed good habits -> Less extra work at publication
+It doesn't need to be perfect and you don't need to do it alone!
+Think about it earlier rather than later.
+Practice -> Embed good habits -> Less extra work at publication.
 
 ---
-## My gripes 
-- Stop using read.delim() -> used read_delim()
-- Stop using data.frame() -> use tibble()
-- Stop using for loops in R -> use lapply() or even better map()
-- 
+
+## Finally... my public service announcements
+
+Stop using read.delim() -> used read_delim()
+Stop using data.frame() -> use tibble()
+Stop using for loops in R -> use lapply() or even better map()
+
+---
 
 

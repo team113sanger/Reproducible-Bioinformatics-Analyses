@@ -48,10 +48,10 @@ read_pycroquet_json<- function(file){
 
 # Metadata recieved from Alan, 
 # Shared from a Slack message from Jamie dated 1st May 2023
-# See thread in Saturation Dermatlas Symphony general informatics
+# See thread in Misc general informatics
 x <- read_tsv("/home/ubuntu/projects/Reproducible-Bioinformatics-Analyses/exercises/01_example_project/metadata.tsv")
 
-files <-fs::dir_ls("/home/ubuntu/projects/Reproducible-Bioinformatics-Analyses/exercises/01_example_project/pycroquet")
+files <-fs::dir_ls(here("exercises/01_example_project/pycroquet"))
 
 qc_data <- map_dfr(files, read_pycroquet_json) 
 
@@ -61,3 +61,15 @@ ggplot(qc_data, aes(x = sample_id, y = mapped_reads)) +
   labs(title = "Number of Mapped Reads per sample", x = "Sample ID", y = "Guide coverage percentage")
 
 )
+
+
+
+x
+plot_list <- qc_data |> 
+group_by(sample_id) |>
+group_split()
+
+
+for (file %in% plot_list){
+  ggplot(file, aes(y = ))
+}
