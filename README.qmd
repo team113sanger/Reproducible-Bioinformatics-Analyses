@@ -24,10 +24,10 @@ format:
 
 ## TLDR
 
-If you only take away thee things from today:
-- **Use relative paths your projects**
+If you only take away three things from today:
+- **Use relative paths in your projects**
 - **Use renv, pip freeze, and conda export**
-- The early you tidy up your projects (**and put them in git**) the better!
+- The earlier you tidy up your projects (**and put them in git**) the better!
 
 ---
 
@@ -72,10 +72,10 @@ If you only take away thee things from today:
 
 ## Current requirements PSA! 
 
-Techinically, all code has to have a "persistent identifier" and be citeable
-- Zenodo the easiest way as you can snapshot GitHub "releases"
-- Makes them citeable 
-![DOI](resources/DOI_repo.png) 
+Technically, all code has to have a "persistent identifier" and be citeable
+- Zenodo is the easiest way as you can [snapshot GitHub "releases"](https://docs.github.com/en/repositories/archiving-a-github-repository/referencing-and-citing-content)
+- This makes them citeable. Add to paper and add a badge to the repository
+![DOI](resources/DOI_repo.png)
 
 ---
 
@@ -276,24 +276,14 @@ Never manually write them down them again!
 
 ## Capturing Environment in Python
 
-**Using pip and a requirements.txtb file **:
+**Using pip and a requirements.txt file**:
 
 ```bash
 # Generate requirements.txt
 pip freeze > requirements.txt
 ```
+Or for the more adventurous pytho-nistas take a look at poetry and its lockfiles for recording environments.
 
-**Using virtual environments**:
-```bash
-# Create virtual environment
-python -m venv myenv
-
-# Activate
-source myenv/bin/activate  # Linux/Mac
-
-# Install packages
-pip install pandas scikit-learn
-```
 
 ---
 
@@ -314,19 +304,6 @@ conda env export > environment.yml
 ```
 
 ---
-
-# 5. Hands-on Project Reproducibility
-
-## Project Cleanup Checklist
-
-1. **Organization**: Directory structure, file naming
-2. **Documentation**: README, in-code comments, notebooks
-3. **Environment**: Record the Dependency specification
-4. **Code quality**: Consistent style, error handling
-5. **Data management**: Raw vs. processed, paths
-
----
-
 
 ## Introduction to Containers
 
@@ -359,23 +336,29 @@ conda env export > environment.yml
 ::::
 
 ---
+
 ## Why containers rule
-Demo time! You should be able to try these in your codespace. 
-I've compiled a set of tools we often use in the lab. How easy is it to set them up?
-```
+
+Demo time! You should be able to try these in your codespace. I've compiled a set of tools we often use in the lab. How easy is it to set them up?
+
+```bash
 docker run quay.io/wtsicgp/valiant:4.0.0 valiant --help
 ```
-```
+
+```bash
 docker run quay.io/team113sanger/bagel2:f9eedca BAGEL.py --help
 ```
-```
+
+```bash
 docker run -it quay.io/biocontainers/repeatmasker:4.1.7p1--pl5321hdfd78af_1 repeat-masker --help
 ```
 
+---
 
 ## How does it work? Anatomy of a Dockerfile
 
 A recipe for all the components a tool requries
+
 ```dockerfile
 FROM python:3.9-slim
 
@@ -387,12 +370,6 @@ RUN apt-get update && apt-get install -y \
 # Install Python dependencies
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
-
-# Copy code
-COPY src/ /app/src/
-
-# Default command
-CMD ["python", "src/main.py"]
 ```
 
 ---
@@ -406,15 +383,13 @@ For those that want to work in Rstudio, watch the demo and
 login: rstudio
 password: rstudio
 
-
 ---
 
 ## Bring Your Own Project!
 
-* Apply what we've learned to your own projects
-* Identify areas for improvement
-* Work on specific issues
-* Get help with implementation
+* Apply what we've learned to one of your own projects
+* Identify some areas for improvement
+* Ask for some advice with their implementation
 
 
 ---
@@ -422,7 +397,8 @@ password: rstudio
 ## Summary 
 
 It doesn't need to be perfect and you don't need to do it alone!
- - Think about it earlier rather than later.
+ - Think about it earlier rather than later. 
+ - Prioritise you project org. Docker is less burning an issue 
  - Practice -> Embed good habits -> Less extra work at publication 
 
 ---

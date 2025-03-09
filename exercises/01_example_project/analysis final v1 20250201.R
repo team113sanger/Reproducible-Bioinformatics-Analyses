@@ -4,20 +4,6 @@ library(readr)
 library(tidyr)
 library(here)
 
-## This script takes some of the data from the CDS1/CDS2 Single guide RNA 
-## paper and does a mock analysis. Disclaimer: it's not inspired by anyone's 
-## real analysis - I've put together a bit of code with a few **purposefully** bad practices
-
-
-## Your task is to fix these bad pracices 
-
-## You'll need to:
-# 1) Correct any paths to relative ones (hint: use `here::here()`)
-# 2) Try using pipe operator (`%>%` or |> ) instead of repeatedly assigning variables (when you see df1, df2, df3 variables)
-# 3) Reorganise the code to read/write files in a more orderly structure
-# 4) Capture the environment you used with renv
-
-# You might want to look at oppurtunties to remove repeated code with functions.
 
 # Read in the raw counts 
 x <- read_tsv("/home/ubuntu/projects/Reproducible-Bioinformatics-Analyses/exercises/01_example_project/raw_count_matrix.tsv")

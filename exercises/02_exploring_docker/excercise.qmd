@@ -126,19 +126,32 @@ This opens an R session with all the packages from your `renv.lock` file pre-ins
 
 ## Next Steps
 
-After completing these exercises, consider exploring:
+As part of this tutorial I've included a simple dockerfile for building a python or conda environment. Why not try adding in some additional packages and building new environments 
 
-- Adding Bioconductor packages to your Docker image
-- Creating a custom R script and running it in your container
+For python Try adding as your favourite package and creating a docker environment that contains it
+```bash
+cd /workspaces/Reproducible-Bioinformatics-Analyses/exercises/02_exploring_docker/02.2_docker_101_python
+docker build -t my-python-env .
+```
+Run and check it's added with
+```bash
+docker run -it my-python-env python3 
+```
+
+For conda. Try adding MAGECK as a package and creating a docker environment that contains it
+```bash
+cd /workspaces/Reproducible-Bioinformatics-Analyses/exercises/02_exploring_docker/02.2_docker_101_python
+docker build -t my-python-env .
+```
+
+```bash
+docker run -it my-python-env python3 
+```
+
+
+
+After completing these exercises, outside this session you might want to consider exploring:
+
+- Adding Bioconductor packages to your R Docker image
 - Mounting volumes to share data between your host system and the container
 - Pushing your image to Docker Hub or a private registry for sharing
-
-## Extra Challenge
-
-Try creating a multi-stage Docker build that:
-1. Uses one container to create the `renv.lock` file
-2. Uses another container to build the final image with just the necessary packages
-
-This approach can result in smaller, more efficient images.
-
-Happy Dockerizing!

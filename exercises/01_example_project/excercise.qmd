@@ -1,0 +1,118 @@
+
+
+# Refactoring Bioinformatics Code for Reproducibility
+
+## Introduction
+ In this exercise, we'll work with code that analyzes some single guide RNA data from the CDS1/CDS2 paper, but contains several purposeful "bad practices" that we'll identify and fix.
+
+> **Disclaimer**: This example is not based on anyone's real analysis - it's a synthetic example designed to highlight common reproducibility pitfalls.
+
+
+Your task is to fix these pitfalls and improve the following things:
+
+1. **Organization**: Improve directory structure and file naming
+2. **Documentation**: Add meaningful comments and documentation
+3. **Environment**: Record dependencies with renv
+4. **Code quality**: Apply consistent style and error handling
+5. **Data management**: Fix paths and organize data files logically
+
+
+You may also want to:
+
+1. **Fix path issues**: Convert absolute paths to relative ones using `here::here()`
+2. **Improve code flow**: Replace sequential variable assignments (e.g., `df1`, `df2`, `df3`) with pipe operators (`%>%` or `|>`)
+3. **Reduce repetition**: Identify opportunities to convert repeated code into functions
+5. **Correct styling inconsistencies**: Use styler to automatically cleanup the code
+
+
+Checkout our guidelines [here](https://docs.google.com/document/d/1zi4ECDuNtWIyxddlhv5XLUqyC5kA2517HWgB3K52fak/edit?tab=t.0)
+
+
+
+### Tips - Refactor with Pipes
+
+Replace code like:
+
+```r
+df1 <- read.csv("data.csv")
+df2 <- filter(df1, value > 10)
+df3 <- mutate(df2, new_col = value * 2)
+df4 <- summarize(df3, mean_val = mean(new_col))
+```
+
+With piped operations:
+
+```r
+library(dplyr)
+result <- read.csv(here("data", "raw", "data.csv")) |>
+  filter(value > 10) |>
+  mutate(new_col = value * 2) |>
+  summarize(mean_val = mean(new_col))
+```
+
+If you don't need a intermediate variable for downstream steps, get rid of it
+
+### Step 5: Reorganize File I/O
+
+Ensure your code follows a logical pattern:
+
+1. Read data from the `data/raw` directory
+2. Process data
+3. Save intermediate files to `data/processed` 
+4. Save final results to `results/tables` or `results/figures`
+
+### Step 6: Capture Your Environment
+
+Initialize and capture your R environment:
+
+```r
+# Initialize renv for the project
+renv::init()
+
+# After your analysis is complete, create a snapshot
+renv::snapshot()
+```
+
+This creates an `renv.lock` file that records your exact package versions.
+
+### Tip: Functionalize Repeated Code
+
+Look for repeated patterns and convert them to functions:
+
+```r
+# Instead of repeating this pattern
+plot1 <- ggplot(data1, aes(x, y)) + geom_point() + theme_minimal() + labs(title = "Plot 1")
+ggsave("plot1.png", plot1, width = 6, height = 4)
+
+plot2 <- ggplot(data2, aes(x, y)) + geom_point() + theme_minimal() + labs(title = "Plot 2")
+ggsave("plot2.png", plot2, width = 6, height = 4)
+
+# Create a function
+create_and_save_plot <- function(data, x_var, y_var, title, filename, width = 6, height = 4) {
+  plot <- ggplot(data, aes({{ x_var }}, {{ y_var }})) + 
+    geom_point() + 
+    theme_minimal() + 
+    labs(title = title)
+  
+  ggsave(here("results", "figures", filename), plot, width = width, height = height)
+  return(plot)
+}
+
+# Then use it
+plot1 <- create_and_save_plot(data1, x, y, "Plot 1", "plot1.png")
+plot2 <- create_and_save_plot(data2, x, y, "Plot 2", "plot2.png")
+```
+
+
+## Conclusion
+
+By following the steps in this tutorial, you've practiced how to transform messy, non-reproducible code into a well-structured, reproducible analysis. These practices will make your research more reliable, easier to share with collaborators, and simpler to return to months or years later.
+
+Remember to:
+- Use relative paths with `here::here()`
+- Leverage pipes for cleaner code flow
+- Organize your files logically
+- Capture your environment with renv
+- Create functions for repeated operations
+
+Happy coding!
