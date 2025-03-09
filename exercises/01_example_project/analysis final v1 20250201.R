@@ -2,6 +2,7 @@ library(ggplot2)
 library(dplyr)
 library(readr)
 library(tidyr)
+library(here)
 
 ## This script takes some of the data from the CDS1/CDS2 Single guide RNA 
 ## paper and does a mock analysis. Disclaimer it's not inspired by anyone's 

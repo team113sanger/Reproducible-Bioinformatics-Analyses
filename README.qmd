@@ -14,15 +14,15 @@ format:
 2. Project Organization
 3. Documentation
 4. Environment Management
-5. Hands-on Project Cleanup
+5. Hands-on Project Cleanup + Docker
 
 ---
 
 ---
 ## TLDR
 If you only take away 3 thing's from today:
-- Relative paths your projects (Please never `setwd(~/Downloads/jb63/etc)` again!)
-- renv, pip freeze, and conda export
+- Use relative paths your projects
+- Use renv, pip freeze, and conda export
 - The early you tidy up your projects (**and put them in git**) the better!
 
 ---
@@ -57,11 +57,12 @@ If you only take away 3 thing's from today:
 ---
 
 ## Journal Requirements
-* Several places **Authors must deposit all raw data in an appropriate repository prior to peer review**
-and  
+
 * **Nature**: Code must be "available in a persistent repository"
 * **PLOS**: Code must be in a repository with a DOI
 * **Genome Biology**: Code must be under version control and with citeable repository
+
+* Key thing to remember **Authors must deposit all raw data in an appropriate repository prior to peer review**
 
 ---
 
@@ -79,7 +80,7 @@ Zenodo the easiest way as you can snapshot GitHub "releases"
 
 ---
 
-# 2. How to get there more easilty: project Organization
+# 2. How to get there more easilty: project organization
 
 ## Project Structure Principles
 
@@ -200,24 +201,37 @@ library(styler)
 
 styler::style_dir(".")
 ```
-This will rewrite your code
+This will rewrite your code, making spaces constient, splitting up long lines etc.
 
 :::
 ---
 
 
 ---
-## Tips: Cleaning up code
+## Tips: Testing your code runs for someone else
 
 ::: {.callout-tip}
-Test run your code 
+Easiest way is to run your code non-interatively with
 ```bash
 Rscript analysis.R
+## or
 python3 analysis.py
+## or
+bash my_script.sh
 ```
-should complete without throwing an error.
+This should complete without throwing an error.
 :::
 ---
+---
+## LLM's - your friend or foe?
+We live in a time where coding assistants can do some of this for you. 
+- Feed GitHub project directly into Claude, or get feedback from ChatGPT
+- Go ahead! But be mindful to scrutinise what you get out... 
+- Rule of thumb - use LLMs to solve problems you understand
+
+---
+
+
 # 4. Environment Management
 
 ## The Problem: Dependency Hell
@@ -236,7 +250,7 @@ should complete without throwing an error.
 :::
 ::::
 
-Solution: Snapshot your environment so that you can share it 
+Part of the solution: snapshot your environment so that you can share it 
 ---
 
 ## Capturing Environments in R
@@ -255,14 +269,14 @@ renv::install("glue")
 renv::snapshot()
 ```
 
-Creates `renv.lock` which records exact package versions you used at the time of creation. 
-Never manually enter them again!
+Creates an `renv.lock` which records exact package versions you used at the time of creation. 
+Never manually write them down them again!
 
 ---
 
 ## Capturing Environment in Python
 
-**Using pip and requirements.txt**:
+**Using pip and a requirements.txtb file **:
 
 ```bash
 # Generate requirements.txt
@@ -301,6 +315,19 @@ conda env export > environment.yml
 
 ---
 
+# 5. Hands-on Project Reproducibility
+
+## Project Cleanup Checklist
+
+1. **Organization**: Directory structure, file naming
+2. **Documentation**: README, in-code comments, notebooks
+3. **Environment**: Record the Dependency specification
+4. **Code quality**: Consistent style, error handling
+5. **Data management**: Raw vs. processed, paths
+
+---
+
+
 ## Introduction to Containers
 
 **What are containers?**
@@ -317,8 +344,8 @@ conda env export > environment.yml
 :::: {.columns}
 ::: {.column width="45%"}
 **Docker**:
-- Standard in all computational work
-- Not always allowed on HPC (inc. sanger farm)
+- Standard in the rest of the computational world
+- Not always allowed on HPC (inc. Sanger farm)
 - Root privileges (Dangerous!)
 - Dockerfile format
 :::
@@ -349,6 +376,7 @@ docker run -it quay.io/biocontainers/repeatmasker:4.1.7p1--pl5321hdfd78af_1 repe
 
 ## How does it work? Anatomy of a Dockerfile
 
+A recipe for all the components a tool requries
 ```dockerfile
 FROM python:3.9-slim
 
@@ -370,7 +398,7 @@ CMD ["python", "src/main.py"]
 
 ---
 
-## Exercise: Creating Environment Files
+## Exercise: Working with Docker to rebuild environments
 
 **Task**: For a project using:
 - R 4.1 with DESeq2, ggplot2, dplyr
@@ -384,25 +412,6 @@ Create:
 
 ---
 
-# 5. Hands-on Project Reproducibility
-
-## Project Cleanup Checklist
-
-1. **Organization**: Directory structure, file naming
-2. **Documentation**: README, in-code comments, notebooks
-3. **Environment**: Record the Dependency specification
-4. **Code quality**: Consistent style, error handling
-5. **Data management**: Raw vs. processed, paths
-
----
-
----
-## LLM's - your friend or foe
-We live in a time where coding assistants can do some of this for you. 
-- In Github Feed project context into Claude 
-- Go ahead! But be mindful of what you get out... 
-
----
 
 ---
 
