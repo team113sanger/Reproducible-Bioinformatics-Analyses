@@ -10,10 +10,10 @@
 
 Your task is to fix these pitfalls and improve the following things:
 
-1. **Organization**: Improve directory structure and file naming
-2. **Documentation**: Add meaningful comments and documentation
+1. **Organization**: The directory structure and file naming
+2. **Documentation**: Add meaningful comments and explanations of what things are doing
 3. **Environment**: Record dependencies with renv
-4. **Code quality**: Apply consistent style and error handling
+4. **Code quality**: Apply consistent style to the code
 5. **Data management**: Fix paths and organize data files logically
 
 
@@ -22,7 +22,6 @@ You may also want to:
 1. **Fix path issues**: Convert absolute paths to relative ones using `here::here()`
 2. **Improve code flow**: Replace sequential variable assignments (e.g., `df1`, `df2`, `df3`) with pipe operators (`%>%` or `|>`)
 3. **Reduce repetition**: Identify opportunities to convert repeated code into functions
-5. **Correct styling inconsistencies**: Use styler to automatically cleanup the code
 
 
 Checkout our guidelines [here](https://docs.google.com/document/d/1zi4ECDuNtWIyxddlhv5XLUqyC5kA2517HWgB3K52fak/edit?tab=t.0)
@@ -50,7 +49,7 @@ result <- read.csv(here("data", "raw", "data.csv")) |>
   summarize(mean_val = mean(new_col))
 ```
 
-If you don't need a intermediate variable for downstream steps, get rid of it
+If you don't need a intermediate variable for downstream steps, get rid of it! More varaibles clutter up your scripts and make it harder to read
 
 ### Step 5: Reorganize File I/O
 
