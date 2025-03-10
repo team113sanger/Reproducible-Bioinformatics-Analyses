@@ -51,18 +51,10 @@ result <- read.csv(here("data", "raw", "data.csv")) |>
 
 If you don't need a intermediate variable for downstream steps, get rid of it! More varaibles clutter up your scripts and make it harder to read
 
-### Step 5: Reorganize File I/O
 
-Ensure your code follows a logical pattern:
+### Tip: Capture Your Environment
 
-1. Read data from the `data/raw` directory
-2. Process data
-3. Save intermediate files to `data/processed` 
-4. Save final results to `results/tables` or `results/figures`
-
-### Step 6: Capture Your Environment
-
-Initialize and capture your R environment:
+Initialize and capture your R environment like so.
 
 ```r
 # Initialize renv for the project
@@ -105,13 +97,4 @@ plot2 <- create_and_save_plot(data2, x, y, "Plot 2", "plot2.png")
 
 ## Conclusion
 
-By following the steps in this tutorial, you've practiced how to transform messy, non-reproducible code into a well-structured, reproducible analysis. These practices will make your research more reliable, easier to share with collaborators, and simpler to return to months or years later.
-
-Remember to:
-- Use relative paths with `here::here()`
-- Leverage pipes for cleaner code flow
-- Organize your files logically
-- Capture your environment with renv
-- Create functions for repeated operations
-
-Happy coding!
+By practicing some how to transform messy, non-reproducible code into a well-structured, reproducible analysis. These practices will make your research more reliable, easier to share with collaborators, and simpler to return to months or years later.

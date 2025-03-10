@@ -82,3 +82,14 @@ facet_wrap(~replicate)
 ggsave(q2,  filename = "/home/ubuntu/projects/Reproducible-Bioinformatics-Analyses/exercises/03_example_project/density_plot_filtered_50_guides.pdf")  
 
 write_tsv(df2_filtered, "/home/ubuntu/projects/filtered_data_50.tsv")
+
+
+
+# Log fold change analysis - generated with MAGECk
+lfc <- read_tsv("exercises/01_example_project/essentials_filtered.sgrna_summary.txt")
+
+
+top_guide_pairs <- lfc |>
+filter(LFC < 0) |>
+select(sgrna, Gene, control_mean, treat_mean, LFC, FDR) |>
+arrange(FDR)

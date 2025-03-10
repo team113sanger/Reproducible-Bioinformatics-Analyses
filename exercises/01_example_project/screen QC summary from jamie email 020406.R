@@ -55,21 +55,32 @@ files <-fs::dir_ls(here("exercises/01_example_project/pycroquet"))
 
 qc_data <- map_dfr(files, read_pycroquet_json) 
 
-ggplot(qc_data, aes(x = sample_id, y = mapped_reads)) +
-  geom_bar(stat = "identity") +
-  theme(axis.text.x = element_text(angle = 90, hjust = 1)) +
-  labs(title = "Number of Mapped Reads per sample", x = "Sample ID", y = "Guide coverage percentage")
 
 )
 
+# Plotting based on metadata
+ggplot(x, aes(x = sample_supplier_name, y = total_reads)) +
+  geom_bar(stat = "identity") +
+  theme(axis.text.x = element_text(angle = 90, hjust = 1)) +
+  labs(title = "Number of Mapped Reads per sample", x = "Sample ID", y = "Mapped reads")
+
+  
+
+# Plotting based on pyroquet data
+ggplot(qc_data, aes(x = sample_id, y = mean_count_per_guide)) +
+  geom_bar(stat = "identity") +
+  theme(axis.text.x = element_text(angle = 90, hjust = 1)) +
+  labs(title = "Number of Mapped Reads per sample", x = "Sample ID", y = "Mapped reads")
 
 
-x
-plot_list <- qc_data |> 
-group_by(sample_id) |>
-group_split()
+
+left_join(qc_data, x, by = c("sample_id" = "sample_supplier_name"))
+  
+# plot_list <- qc_data |> 
+# group_by(sample_id) |>
+# group_split()
 
 
-for (file %in% plot_list){
-  ggplot(file, aes(y = ))
-}
+# for (file %in% plot_list){
+#   ggplot(file, aes(y = ))
+# }
